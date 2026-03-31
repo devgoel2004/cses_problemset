@@ -441,54 +441,21 @@ ll fact(ll x, ll mod){
     ans = ans%mod;
     return ans;
 }
-bool is_possible(map<char, int>& ft, char cur) {
-    // Find highest occurring character
-    char mode = cur;
-    int total_left_to_fill = 0;
-    for (auto& [ch, f] : ft) {
-        if (f > ft[mode])
-            mode = ch;
-        total_left_to_fill += f;
-    }
-    return (ft[mode] <= (total_left_to_fill + 1) / 2) && (ft[cur] <= total_left_to_fill / 2);
-}
-
-
-
 void hareKrishna() {
-    string s;
-    cin >> s;
-    int n = s.size();
-
-    // Create Frequency Map
-    map<char, int> ft;
-    for (auto ch : s)
-        ft[ch]++;
-
-    string ans = "";
-    char last = '\0';
-    for (int i = 0; i < n; i++) {
-        // Try Picking smallest character possible
-        for (int i = 0; i < 26; i++) {
-            char ch = 'A' + i;
-            // don't consider 'last' placed character
-            if (ft[ch] == 0 || ch == last) continue;
-
-            ft[ch]--;
-            if (is_possible(ft, ch)) {
-                ans.push_back(ch);
-                last = ch;
-                break;
-            } else {
-                // unable to place 'ch' as current character; consider next smallest
-                ft[ch]++;
+    ll n,sum;
+    cin>>n>>sum;
+    vector<ll>a(n);
+    for(ll i=0;i<n;i++){cin>>a[i];}
+    vector<ll>dp(sum+1,0);
+    dp[0]=1;
+    for(ll i=1;i<=sum;i++){
+        for(ll j=0;j<n;j++){
+            if(i-a[j]>=0){
+                dp[i] = (dp[i] + dp[i-a[j]])%MOD;
             }
         }
     }
-    if (ans.size() == n)
-        cout << ans << '\n';
-    else
-        cout << "-1" <<'\n';
+    cout<<dp[sum]<<'\n';
 }
 int main(){
     ios::sync_with_stdio(false);cin.tie(0);
