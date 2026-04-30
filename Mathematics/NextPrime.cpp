@@ -504,12 +504,29 @@ ll geometric_mean(ll x, ll y){
     ll ans = (pw%MOD * val%MOD)%MOD;
     return ans;
 }
+vector<ll>primes;
+bool isPrimeCheck(ll n){
+    for(ll i=0;i<primes.size();i++){
+        if(primes[i]>=n){
+            break;
+        }
+        if(n%primes[i]==0){
+            return false;
+        }
+    }
+    return true;
+}
 void hareKrishna(){
-    ll n,k;
-    cin>>n>>k;
-    ll ans = fact[n];
-    ans = (ans%MOD * invfact[n-k]%MOD)%MOD;
-    ans = (ans%MOD * invfact[k]%MOD)%MOD;
+    ll n;
+    cin>>n;
+    ll ans = n;
+    while(true){
+        n+=1;
+        if(isPrimeCheck(n)){
+            ans = n;
+            break;
+        }
+    }
     cout<<ans<<'\n';
 }
  
@@ -517,9 +534,14 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    // sieveOfEratosthenes();
-    factorial();
-    inverseFactorial();
+    sieveOfEratosthenes();
+    for(ll i=1;i<=1e6;i++){
+        if(isPrime[i]){
+            primes.push_back(i);
+        }
+    }
+    // factorial();
+    // inverseFactorial();
     cin>>t;
     while(t--){
         hareKrishna();

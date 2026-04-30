@@ -1,0 +1,1 @@
+{"name":"Local: NextPrime","url":"/Users/devgoel901/Desktop/programs/CSES Problemset/Mathematics/NextPrime.cpp","tests":[{"id":1777536339221,"input":"5\n1\n2\n3\n42\n1337","output":"2\n3\n5\n43\n1361"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/devgoel901/Desktop/programs/CSES Problemset/Mathematics/NextPrime.cpp","group":"local","local":true}
