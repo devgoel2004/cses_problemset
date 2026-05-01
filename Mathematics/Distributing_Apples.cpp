@@ -97,6 +97,17 @@ class DisjointSet{
         }
      }
 };
+ll power(ll a, ll b){
+    ll res = 1;
+    while(b>0){
+        if(b&1){
+            res = (res%MOD * a%MOD)%MOD;
+        }
+        a = (a%MOD*a%MOD)%MOD;
+        b>>=1;
+    }
+    return res;
+}
 bool isPowerOfTwo(ll n){
     if (n == 0)
         return false;
@@ -215,7 +226,7 @@ string toBinaryString(ll number) {
     }
     return binaryString;
 }
-const ll maxN = 1e6+1;
+const ll maxN = 2e6+5;
 
 vector<ll> isPrime(maxN + 1, true);
 vector<ll> smallest_prime_factor(maxN+1,1e9);
@@ -232,23 +243,6 @@ void sieveOfEratosthenes() {
         }
     }
 }
-
-ll modularInverse(ll x){
-    ll b = M-2;
-    ll res = 1;
-    x=x%M;
-    if(x==0){
-        return 0;
-    }
-    while(b>0){
-        if(b&1){
-            res = ((res%M) * (x%M))%M;
-        }
-        b>>=1;
-        x = ((x%M)*(x%M))%M;
-    }
-    return res;
-}
 vector<ll>fact(maxN+1,1);
 vector<ll>invfact(maxN+1,1);
 void factorial(){
@@ -257,7 +251,7 @@ void factorial(){
     }
 }
 void inversefactorial(){
-    invfact[maxN] = modularInverse(fact[maxN]);
+    invfact[maxN] = power(fact[maxN]%MOD, MOD-2);
     for(ll i=maxN-1;i>=0;i--){
         invfact[i] = (invfact[i+1]%MOD * (i+1)%MOD)%MOD;
     }
@@ -408,6 +402,10 @@ ll pw(ll a, ll b){
         return ((temp%MOD)*(temp%MOD)*(a%MOD))%MOD;
     }
 }
+// Modulo inverse function
+ll modulo_inverse(ll x){
+    return pw(x,MOD-2)%MOD;
+}
 vector<ll>factors(ll x){
     vector<ll>fac;
     for(ll i=1;i*i<=x;i++){
@@ -427,6 +425,22 @@ ll digitsum(ll n){
         n/=10;
     }
     return sum;
+}
+ll modularInverse(ll x){
+    ll b = M-2;
+    ll res = 1;
+    x=x%M;
+    if(x==0){
+        return 0;
+    }
+    while(b>0){
+        if(b&1){
+            res = ((res%M) * (x%M))%M;
+        }
+        b>>=1;
+        x = ((x%M)*(x%M))%M;
+    }
+    return res;
 }
 ll binarySearch(vector<ll>&a, ll val){
     ll n = a.size();
@@ -481,37 +495,15 @@ ll noDigits(ll k){
     }
     return cnt;
 }
-ll power(ll a, ll b){
-    ll res = 1;
-    while(b>0){
-        if(b&1){
-            res = res * a;
-        }
-        a = a*a;
-        b>>=1;
-    }
-    return res;
-}
-bool check(multiset<ll>&st, ll mex){
-    for(ll i=0;i<mex;i++){
-        if(st.find(i)==st.end()){
-            return false;
-        }
-    }
-    return true;
-}
+
+
 void hareKrishna(){
-    string s;
-    cin>>s;
-    map<char,ll>mpp;
-    for(auto x:s){
-        mpp[x]++;
-    }
-    ll ans = fact[s.size()];
-    for(auto x:mpp){
-        ans = (ans%MOD * modularInverse(fact[x.second])%MOD)%MOD;
-        ans = ans % MOD;
-    }
+    ll n,k;
+    cin>>n>>k;
+    ll ans = 1;
+    ans = (ans%MOD * fact[((n%MOD+k%MOD)%MOD-1 + MOD)%MOD]%MOD)%MOD;
+    ans = (ans%MOD * invfact[n-1]%MOD)%MOD;
+    ans = (ans%MOD * invfact[k]%MOD)%MOD;
     cout<<ans<<'\n';
 }
 int main(){
@@ -519,8 +511,8 @@ int main(){
     cin.tie(NULL);
     ll t=1;
     // sieveOfEratosthenes();
-    // factorial();
-    // inversefactorial();
+    factorial();
+    inversefactorial();
     // cin>>t;
     while(t--){
         hareKrishna();
