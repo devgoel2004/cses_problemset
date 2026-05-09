@@ -461,19 +461,14 @@ void hareKrishna() {
     for(ll i=0;i<n;i++){
         cin>>a[i];
     }
-    multiset<ll>st;
-    ll ans=0;
-    for(ll i=0;i<n;i++){
-        auto upper = st.upper_bound(a[i]);
-        if(upper == st.end()){
-            ans +=1;
-            st.insert(a[i]);
-        }else{
-            st.erase(upper);
-            st.insert(a[i]);
-        }
+    ll maxi = *max_element(a.begin(),a.end());
+    ll sum = accumulate(a.begin(),a.end(),0LL);
+    ll val = sum - maxi;
+    if(val >= maxi){
+        cout<<sum<<'\n';
+    }else{
+        cout<<2*maxi<<'\n';
     }
-    cout<<ans<<'\n';
 }
 int main(){
     ios::sync_with_stdio(false);cin.tie(0);
